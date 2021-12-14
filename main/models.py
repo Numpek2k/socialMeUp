@@ -19,6 +19,7 @@ class Files(models.Model):
             return self.image.url
 
 
+
 class Comments(models.Model):
     postedBy = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.ForeignKey(Files, on_delete=models.CASCADE)
