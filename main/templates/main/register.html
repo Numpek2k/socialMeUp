@@ -1,10 +1,56 @@
-<a href="/home">home</a>
-<a href="/">login</a>
-<a href="/register">register</a>
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    {% include "main/fragmentStyle.html" %}
+</head>
+<body>
+<div class="position-absolute background"></div>
+<section class="vh-100" >
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h3 class="text-center mb-5">Create an account</h3>
 
-<form>
-    <input type="text" placeholder="Username"><br><br>
-    <input type="password" placeholder="Password"><br><br>
-    <input type="password" placeholder="Confirm Password"><br><br>
-    <input type="email" placeholder="Mail">
-</form>
+              <form method="post">
+
+                <div class="form-outline mb-4">
+                  <input class="form-control" type="text" placeholder="Nickname">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input class="form-control" type="text" placeholder="Name">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input class="form-control" type="text" placeholder="Surname">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input class="form-control" placeholder="Password" type="password">
+                </div>
+
+                <div class="form-outline mb-4">
+                   <input class="form-control" type="email" placeholder="Mail">
+                </div>
+
+                <div class="d-flex justify-content-center">
+                  <input type="submit" class="btn btn-outline-primary btn-lg" value="Sign in!"/>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0"><a href="/" class="fw-bold text-body"><u>Login here!</u></a></p>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
