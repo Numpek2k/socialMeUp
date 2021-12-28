@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 
@@ -19,7 +20,6 @@ class Files(models.Model):
             return self.image.url
 
 
-
 class Comments(models.Model):
     postedBy = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.ForeignKey(Files, on_delete=models.CASCADE)
@@ -27,7 +27,5 @@ class Comments(models.Model):
 
 
 class Friends(models.Model):
-    idWho = models.ForeignKey(User, on_delete=models.CASCADE,related_name='person')
-    idWom = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
+    idWho = models.ForeignKey(User, on_delete=models.CASCADE, related_name='person')
+    idWhom = models.ForeignKey(User, on_delete=models.CASCADE)
