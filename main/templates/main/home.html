@@ -1,6 +1,26 @@
-<a href="/home">home</a>
-<a href="/">login</a>
-<a href="/register">register</a>
-<a href="/profile">profile</a>
-<a href="/friends">friendList</a>
-<a href="/image">image</a>
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>HomePage</title>
+  {% include "main/fragmentStyle.html" %}
+</head>
+<body class="mt-5">
+
+  {% include "main/fragmentNavBar.html" %}
+
+  <div class="w-25 float-start my-5">
+    <span></span>
+  </div>
+
+  <div class="w-50 float-start my-5">
+    <div>
+    </div>
+  </div>
+
+  <div class="w-25 float-end my-5">
+    <span></span>
+  </div>
+
+</body>
+</html>
