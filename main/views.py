@@ -1,19 +1,29 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .forms import *
+from .models import Comments, Friends, Files
+
 
 # Create your views here.
 
 
 def login(response):
-    return render(response, "main/login.html")
+    return redirect('login')
 
 
 def register(response):
-    return render(response, "main/register.html")
+    if response.method == "POST":
+        form = CustomUserCreatingForm(response.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUserCreatingForm()
+    return render(response, 'main/register.html', {'form': form})
 
 
 def profile(response):
-    return render(response, "main/profile.html")
+    return render(response, "main/profile.html" )
 
 
 def home(response):

@@ -16,27 +16,38 @@
             <div class="card-body p-5">
               <h3 class="text-center mb-5">Create an account</h3>
 
-              <form method="post">
+              <form method="POST" class="">
+								{% csrf_token %}
 
                 <div class="form-outline mb-4">
-                  <input class="form-control" type="text" placeholder="Nickname">
+                  {{ form.username }}
                 </div>
+								{{ form.username.errors }}
 
                 <div class="form-outline mb-4">
-                  <input class="form-control" type="text" placeholder="Name">
+                  {{ form.first_name }}
                 </div>
+									{{ form.first_name.errors }}
 
                 <div class="form-outline mb-4">
-                  <input class="form-control" type="text" placeholder="Surname">
+                  {{ form.last_name }}
                 </div>
+									{{ form.last_name.errors }}
 
                 <div class="form-outline mb-4">
-                  <input class="form-control" placeholder="Password" type="password">
+									{{ form.password1}}
                 </div>
+									{{ form.password1.errors }}
 
                 <div class="form-outline mb-4">
-                   <input class="form-control" type="email" placeholder="Mail">
+									{{ form.password2}}
                 </div>
+									{{ form.password2.errors }}
+
+                <div class="form-outline mb-4">
+									{{ form.email}}
+                </div>
+									{{ form.email.errors }}
 
                 <div class="d-flex justify-content-center">
                   <input type="submit" class="btn btn-outline-primary btn-lg" value="Sign in!"/>

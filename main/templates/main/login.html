@@ -18,14 +18,18 @@
               <h3 class="text-center mb-5">Login!</h3>
 
                 <form method="post" >
-
+									{% csrf_token %}
                 <div class="form-outline mb-4">
-                  <input  class="form-control" type="text" placeholder="Nickname">
+                  {{ form.username }}
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input class="form-control" placeholder="Password" type="password">
+                  {{ form.password }}
                 </div>
+
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
 
                 <div class="d-flex justify-content-center">
                   <input type="submit" class="btn btn-outline-success btn-lg" value="Log In!"/>
