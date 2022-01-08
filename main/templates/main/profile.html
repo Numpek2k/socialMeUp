@@ -1,17 +1,100 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ProfilePage</title>
+		{% include "main/fragmentStyle.html" %}
 </head>
 <body>
-<a href="/home">home</a>
-<a href="/">login</a>
-<a href="/register">register</a>
-<a href="/profile">profile</a>
-<a href="/friends">friendList</a>
-<a href="/image">image</a>
 
+{% include "main/fragmentNavBar.html" %}
+
+
+<div class="py-5 px-4 my-5">
+  <div class="col-md-7 mx-auto">
+    <div class="bg-white shadow rounded overflow-hidden">
+      <div class="px-4 py-4 profileBG">
+        <div class="media">
+          <div class="text-white modal-dialog-centered">
+            <img src="/static/profile.png" alt="..." class="rounded mb-1 img-thumbnail w-25">
+            <div class="px-3 w-75 float-end" >
+              <span class="mt-0 mb-0 h3">
+                  <span>{{ userByID.first_name }}</span>
+                  <span>{{ userByID.last_name }}</span>
+              </span>
+              <p class="small mb-0 float">{{ userByID.username }}</p>
+            </div>
+          </div>
+          <div class="w-25 text-white py-3">
+	          <form action="/addfriend/{{ userByID.id }}">
+					    {% csrf_token %}
+				      <input type="submit" class="btn btn-dark mx-auto" value="Add to friend"/>
+				    </form>
+          </div>
+        </div>
+      </div>
+      <div class="bg-light p-4 d-flex justify-content-end text-center">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <a class="btn" data-bs-toggle="modal" data-bs-target="#viewFriends">
+              <h5 class="font-weight-bold mb-0 d-block">
+                  <span>{{ userByID.friends_set.all.count }}</span>
+              </h5>
+              <small class="text-muted">
+              Friends
+              </small>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Recent photos</h5>
+        </div>
+        <div class="">
+          {% for file in files %}
+	          {% include "main/fragmentImage.html" %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- viewFriends -->
+<div class="modal fade" id="viewFriends" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Friends</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+	        <thead>
+	          <tr>
+	            <th scope="col"></th>
+	            <th scope="col"> Name </th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          {% for friend in userByID.friends_set.all %}
+		          <tr>
+		            <td>
+		              <span><img src="/static/profile.png" alt="..." width="50" class="rounded"></span>
+		            </td>
+		            <td>
+		              <span >{{ friend.idWho.first_name }}</span>
+		              <span >{{ friend.idWho.last_name }}</span>
+		            </td>
+		          </tr>
+	          {% endfor %}
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

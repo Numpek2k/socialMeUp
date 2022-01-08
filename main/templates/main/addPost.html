@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	{% include "main/fragmentStyle.html" %}
+</head>
+<body>
+
+{% include "main/fragmentNavBar.html" %}
+
+<div class="position-fixed background"></div>
+
+<div class="py-5">
+  <div class="modal-dialog">
+    <div class="modal-content ">
+        <h5 class="modal-title px-3 pt-3" id="exampleModalLabel">Add photo. </h5>
+        <br>
+      <form class="mb-0" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+            <div class="px-3 pb-3 form-group">
+                {{ form.title }}
+            </div>
+            <div class="px-3 pb-3 form-group">
+                {{ form.description }}
+            </div>
+            <div class="px-3 pb-3 input-group mb-3">
+              <div class="custom-file">
+                {{ form.image }}
+              </div>
+            </div>
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+            <div class="modal-footer justify-content-center">
+	            <input type="submit" class="btn btn-success" value="Add Photo" />
+	            <a class="btn btn-danger btn-file" href="/home">Home</a>
+            </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

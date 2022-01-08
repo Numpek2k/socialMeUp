@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 def get_path(instance, filename):
-    return '{0}/{1}'.format(instance.author.username, filename)
+    return 'files/{}/{}'.format(instance.postedBy.username, filename)
 
 
 class Files(models.Model):
@@ -14,8 +14,9 @@ class Files(models.Model):
     image = models.ImageField(upload_to=get_path, blank=True)
     title = models.CharField(max_length=100, default='')
     description = models.TextField(blank=True)
+    add_date = models.DateTimeField()
 
-    def image_path(self):
+    def image_url(self):
         if self.image and hasattr(self.image, 'url'):
             return self.image.url
 

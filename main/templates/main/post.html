@@ -1,0 +1,72 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>ImagePage</title>
+	{% include "main/fragmentStyle.html" %}
+</head>
+<body class="mt-5">
+
+  {% include "main/fragmentNavBar.html" %}
+
+  <div class="mt-3 w-75 float-start">
+    <div class="card-body pb-0 modal-dialog-centered">
+      <img src="/static/profile.png" alt="..." class="rounded-circle mb-1 img-thumbnail col-1 float-start">
+      <div class="card-title float-start">
+        <h5 class="mx-2 my-0 float-start" > {{ file.title }} </h5>
+        <p class="mx-2" >
+          <a class="link-secondary"
+          href="/profile/{{ file.postedBy_id }}">
+	          {{ file.postedBy }}
+          </a>
+        </p>
+      </div>
+    </div>
+    <div class="my-3 float-start w-100">
+      <div class="text-center">
+        <img style="max-height:800px; max-width:85%;" class="img-fluid" src="{{ file.image_url }}">
+      </div>
+      <div class="mx-5">
+        <p class="card-text h5" >Description : </p>
+        <p class="card-text" >{{ file.description }}</p>
+        <p class="card-text">
+          <span class="text-muted">{{ file.add_date|naturaltime }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container w-25 my-3 border border-3 rounded float-end">
+    <form action="/addfriend/{{ file.postedBy_id }}">
+	    {% csrf_token %}
+      <input type="submit" class="btn btn-primary" value="Follow"/>
+    </form>
+    <form action="/addcomment/{{ file.id }}" method="POST">
+	    {% csrf_token %}
+        <div class="d-flex justify-content-center">
+	        {{ form.content }}
+        </div>
+        <button type="submit" class="btn btn-secondary"> Add </button>
+    </form>
+    <div>
+
+	    {% for comment in file.comments_set.all %}
+	    <div class="d-flex py-2">
+			  <div class="second py-2"> <span class="text1">{{ comment.content }}</span>
+			    <div class="d-flex justify-content-between py-1 pt-2">
+			      <div><img src="" width="18"><span>{{ comment.postedBy }}</span></div>
+			    </div>
+			  </div>
+			</div>
+	    {% endfor %}
+
+    </div>
+  </div>
+
+
+
+</body>
+</html>
+

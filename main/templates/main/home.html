@@ -9,13 +9,19 @@
 
   {% include "main/fragmentNavBar.html" %}
 
+  <div class="position-fixed background"></div>
+
   <div class="w-25 float-start my-5">
     <span></span>
   </div>
 
   <div class="w-50 float-start my-5">
     <div>
-{#      <th:block th:each="file : ${fileFollow}" th:include="fragmentImgCardHolder.html"/>#}
+
+	    {% for file in files %}
+	      {% include "main/fragmentImage.html" %}
+	    {% endfor %}
+
     </div>
   </div>
 

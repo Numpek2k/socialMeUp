@@ -1,0 +1,27 @@
+{% load humanize %}
+
+<div class="card mb-4">
+  <div class="card-body pb-0 modal-dialog-centered">
+    <img src="/static/profile.png" alt="..." class="rounded-circle mb-1 img-thumbnail col-1 float-start">
+    <div class="card-title float-start">
+      <h5 class="mx-2 my-0 float-start" > {{ file.title }} </h5>
+      <p class="mx-2" >
+        <a class="link-secondary"
+        href="/profile/{{ file.postedBy_id }}">
+	        {{ file.postedBy }}
+        </a>
+      </p>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <a href="/post/{{ file.id }}">
+      <img
+      src="{{ file.image_url }}"
+      class="card-img-top"
+      alt="..."
+      />
+    </a>
+    <p class="card-text" >{{ file.add_date|naturaltime }}</p>
+    <p class="card-text" >{{ file.description }}</p>
+  </div>
+</div>
