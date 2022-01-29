@@ -48,3 +48,31 @@ class AddCommentForm(forms.ModelForm):
 class AddFriendsForm(forms.Form):
     class Meta:
         model = Friends
+
+
+class ForgetPasswordForm(forms.Form):
+    email = forms.CharField(widget=EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+                            help_text='Enter a valid email address')
+
+    class Meta:
+        fields = ['email']
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists():
+            self.add_error('email', 'User with this mail does not exist in our database.')
+
+
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+    password2 = forms.CharField(
+        widget=PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
+
+    class Meta:
+        fields = ['password1', 'password2']
+
+    def clean(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if not password1 == password2:
+            self.add_error('password2', 'Password dose not match')

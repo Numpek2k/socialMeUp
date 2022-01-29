@@ -10,4 +10,6 @@ urlpatterns = [
     path("post/<int:postById>", views.post, name="post"),
     path("addpost/", views.addpost, name="addpost"),
     path("addcomment/<int:fileId>", views.addcomment, name="addcomment"),
+    path("forget_password/", views.forget_password, name="forget_password"),
+    path("change_password/<str:token>", views.change_password, name="change_password"),
 ]

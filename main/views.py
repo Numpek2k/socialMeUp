@@ -1,9 +1,13 @@
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .forms import *
 from .models import Comments, Friends, Files
+from itsdangerous import TimedJSONWebSignatureSerializer as serializer
 
 
 # Create your views here.
@@ -42,8 +46,13 @@ def profile(response, postedById):
 def home(response):
     if not response.user.is_authenticated:
         return redirect('login')
-    files = Files.objects.all().order_by("-add_date")
-    return render(response, 'main/home.html', {'files': files})
+    friends = User.objects.all().filter(Q(friends__idWho=response.user))
+    if not friends:
+        files = Files.objects.all().order_by("-add_date")
+        return render(response, 'main/home.html', {'files': files})
+    else:
+        filesByFriend = Files.objects.all().filter(postedBy__in=friends).order_by("-add_date")
+        return render(response, 'main/home.html', {'files': filesByFriend})
 
 
 def post(response, postById):
@@ -72,7 +81,7 @@ def addpost(response):
     return render(response, 'main/addPost.html', {'form': form})
 
 
-def addcomment(response,fileId):
+def addcomment(response, fileId):
     if not response.user.is_authenticated:
         return redirect('login')
     if response.method == 'POST':
@@ -84,13 +93,13 @@ def addcomment(response,fileId):
                 comment.postedBy = response.user
                 comment.file = file.get(pk=fileId)
                 comment.save()
-                return redirect('/post/'+str(fileId))
+                return redirect('/post/' + str(fileId))
             else:
                 form.add_error('text', "Post doesn't exist")
     return redirect('home')
 
 
-def addfriend(response,friendId):
+def addfriend(response, friendId):
     if not response.user.is_authenticated:
         return redirect('login')
     if User.objects.filter(id=friendId).exists():
@@ -100,11 +109,61 @@ def addfriend(response,friendId):
             Friends.objects.get(idWhom=whom, idWho=who)
         except Friends.DoesNotExist:
             if who == whom:
-                return redirect('/profile/'+str(friendId))
+                return redirect('/profile/' + str(friendId))
             else:
                 Friends(idWho=who, idWhom=whom).save()
                 Friends(idWho=whom, idWhom=who).save()
-                return redirect('/profile/'+str(friendId))
+                return redirect('/profile/' + str(friendId))
     else:
         return HttpResponse("<H1> User not exist </H1>")
-    return redirect('/profile/'+str(friendId))
+    return redirect('/profile/' + str(friendId))
+
+
+def forget_password(response):
+    if response.method == 'POST':
+        form = ForgetPasswordForm(response.POST)
+        if form.is_valid():
+            email = form.data.get('email')
+            user = User.objects.filter(email=email)
+            if user.exists():
+                secret_key = '8kxsj1rf$gxrmg3!^ky451nl1eyyy+w$w%(8^xv5vth4o8@ho6'
+                time_expired = 600
+                s = serializer(secret_key, time_expired)
+                token = s.dumps({'user_id': user.get().id}).decode('UTF-8')
+                send_mail('Change password', 'http://127.0.0.1:8000/change_password/' + token,
+                          'palcelizacpl@gmail.com', [email])
+            return redirect('login')
+    else:
+        form = ForgetPasswordForm()
+
+    return render(response, 'main/forget_password.html', {'form': form})
+
+
+def try_user_id(token):
+    secret_key = '8kxsj1rf$gxrmg3!^ky451nl1eyyy+w$w%(8^xv5vth4o8@ho6'
+    s = serializer(secret_key)
+    try:
+        user_id = s.loads(token)['user_id']
+    except:
+        return None
+
+    return User.objects.get(id=user_id)
+
+
+def change_password(response, token):
+    if response.method == 'POST':
+        user = try_user_id(token)
+        form = ChangePasswordForm(response.POST, user)
+        if user is None:
+            form.add_error('password1', 'This token is invalid or expired')
+            return render(response, 'main/change_password.html', {'form': form})
+        if form.is_valid():
+            password = form.data.get('password1')
+            user.password = make_password(password)
+            user.save()
+            return redirect('login')
+
+    else:
+        form = ChangePasswordForm()
+
+    return render(response, 'main/change_password.html', {'form': form})

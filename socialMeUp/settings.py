@@ -132,3 +132,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'palcelizacpl@gmail.com'
+EMAIL_HOST_PASSWORD = 'Admin32121!'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'SocialMeUp <noreply@palcelizacpl.com>'
