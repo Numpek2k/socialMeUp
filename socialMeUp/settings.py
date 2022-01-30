@@ -134,7 +134,15 @@ LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+
+# handout: begin-exclude
 EMAIL_HOST_USER = 'palcelizacpl@gmail.com'
 EMAIL_HOST_PASSWORD = 'Admin32121!'
+# handout: end-exclude
+
+# EMAIL_HOST_USER = 'mail'
+# EMAIL_HOST_PASSWORD = 'password'
+
+
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'SocialMeUp <noreply@palcelizacpl.com>'
