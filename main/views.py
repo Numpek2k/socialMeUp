@@ -130,7 +130,8 @@ def forget_password(response):
                 time_expired = 600
                 s = serializer(secret_key, time_expired)
                 token = s.dumps({'user_id': user.get().id}).decode('UTF-8')
-                send_mail('Change password', 'http://127.0.0.1:8000/change_password/' + token,
+                send_mail('Change password', ('To change your password click on the link below: \n'
+                                              + 'http://127.0.0.1:8000/change_password/' + token),
                           'palcelizacpl@gmail.com', [email])
             return redirect('login')
     else:
