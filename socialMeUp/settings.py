@@ -136,8 +136,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 
 # handout: begin-exclude
-EMAIL_HOST_USER = 'palcelizacpl@gmail.com'
-EMAIL_HOST_PASSWORD = 'Admin32121!'
+EMAIL_HOST_USER = 'antfarm357@gmail.com'
+EMAIL_HOST_PASSWORD = 'lrfd yqft ufko tyoi'
 # handout: end-exclude
 
 # EMAIL_HOST_USER = 'mail'
